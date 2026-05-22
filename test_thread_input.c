@@ -7,7 +7,7 @@
 const int UP = 1;
 const int DOWN = 2;
 
-int cmm;
+int *cmm;
 
 void* func(void* arg);
 
@@ -23,8 +23,8 @@ int main()
   for (;;)
   {
     char ch = getch();
-    if (cmm == UP) printw("UP");
-    else if (cmm == DOWN) printw("DOWN");
+    if (*cmm == UP) printw("UP");
+    else if (*cmm == DOWN) printw("DOWN");
     if (ch == 'q') break;
   }
 
@@ -40,8 +40,8 @@ void* func(void* arg)
   {
     refresh();
     char inp = getch();
-    if (inp == ' ') cmm = UP;
-    else cmm = DOWN;
+    if (inp == ' ') *cmm = UP;
+    else *cmm = DOWN;
     sleep(1);
   }
   return NULL;
