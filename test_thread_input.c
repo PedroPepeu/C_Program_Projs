@@ -4,6 +4,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+const int UP = 1;
+const int DOWN = 2;
+
+int cmm;
+
 void* func(void* arg);
 
 int main()
@@ -18,11 +23,8 @@ int main()
   for (;;)
   {
     char ch = getch();
-    if (ch == KEY_ENTER)
-    {
-      refresh();
-      printw("\n");
-    }
+    if (cmm == UP) printw("UP");
+    else if (cmm == DOWN) printw("DOWN");
     if (ch == 'q') break;
   }
 
@@ -37,7 +39,9 @@ void* func(void* arg)
   while(1)
   {
     refresh();
-    printw("running");
+    char inp = getch();
+    if (inp == ' ') cmm = UP;
+    else cmm = DOWN;
     sleep(1);
   }
   return NULL;
