@@ -1,59 +1,45 @@
 #include <ncurses.h>
-#include <string.h>
-#include <signal.h>
+#include <menu.h>
 #include <stdlib.h>
-#include <pthread.h>
-
-int *ctl;
-int *it = 0;
-int *it_ch = 0;
-int *loss = 0;
-static void finish(int sig);
-void* char_func(void* arg);
+#include <string.h>
+#include "menu_ui.h"
+#include "start_game.h"
 
 int main()
 {
-  char mesg[] = "Press any key to start to Start";
-  char str[80];
-  int row,col;
-  char ctl;
+  int menu_idx;
 
-  initscr();
-  getmaxyx(stdscr, row, col);
-  mvprintw(row/2,(col-strlen(mesg))/2,"%s", mesg);
-  refresh();
-  getch();
+  init_ui();
 
-  pthread_t thread_char;
-
-  pthread_create(&thread_char, NULL, char_func, NULL);
-
-  for (;;)
+  while(1)
   {
-    if(ctl == 'q')
+    menu_idx = run_menu();
+
+    if (menu_idx == -1 || menu_idx == 4)
     {
-      finish(0);
       break;
     }
-    if(ctl == ' ')
+
+    switch (menu_idx)
     {
-      // jump
-      refresh();
-      printw("indexing");
+      case 0:
+        run_game();
+        break;
     }
-    it+=1;
+
+    if (menu_idx != -1)
+    {
+      printf("Sucess! You choose index: %d\n", menu_idx);
+    }
+    else
+    {
+      printf("You canceled with F1\n");
+    }
   }
-}
 
-void* char_func(void* arg)
-{
-  ctl = getch();
-  return NULL;
-}
+  close_ui();
 
-static void finish(int sig)
-{
-  pthread_join(thread_char, NULL);
-  endwin();
-  exit(0);
+  printf("Program finished with success");
+
+  return 0;
 }
