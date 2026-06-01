@@ -4,6 +4,9 @@
 #include <string.h>
 #include "menu_ui.h"
 #include "start_game.h"
+#include "leadboard.h"
+#include "options.h"
+#include "sup_dev.h"
 
 int main()
 {
@@ -24,6 +27,15 @@ int main()
     {
       case 0:
         run_game();
+        break;
+      case 1:
+        run_leadboard();
+        break;
+      case 2:
+        run_options();
+        break;
+      case 3:
+        run_sup_dev();
         break;
     }
 
